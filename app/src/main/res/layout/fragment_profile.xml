@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ProfileFragment">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/iv_profilePic"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:scaleType="centerCrop"
+        android:layout_marginTop="70dp"
+        app:civ_border_color="@color/colorPrimary"
+        app:civ_border_width="2dp"
+        android:src="@drawable/profile_pic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/iv_edit_pp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:scaleType="centerCrop"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:src="@drawable/edit_pp"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_profilePic"
+        app:layout_constraintEnd_toEndOf="@+id/iv_profilePic" />
+
+    <EditText
+        android:id="@+id/et_display_name"
+        android:layout_width="0dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/profile_shape"
+        android:text="Display Name"
+        android:focusable="false"
+        android:cursorVisible="false"
+        android:textColor="@color/grey"
+        android:inputType="textPersonName"
+        android:maxLines="1"
+        android:maxLength="30"
+        android:textSize="20sp"
+        android:gravity="fill"
+        android:paddingStart="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_profilePic" />
+
+    <ImageView
+        android:id="@+id/iv_edit_name"
+        android:layout_width="34dp"
+        android:layout_height="34dp"
+        android:src="@drawable/ic_edit_color_primary"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/et_display_name"
+        app:layout_constraintEnd_toEndOf="@+id/et_display_name"
+        app:layout_constraintTop_toTopOf="@+id/et_display_name" />
+
+    <EditText
+        android:id="@+id/et_email"
+        android:layout_width="0dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:paddingStart="16dp"
+        android:textSize="20sp"
+        android:gravity="fill"
+        android:background="@drawable/profile_shape"
+        android:text="abc@gmail.com"
+        android:textColor="@color/grey"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_display_name" />
+
+    <ImageView
+        android:id="@+id/iv_edit_email"
+        android:layout_width="34dp"
+        android:layout_height="34dp"
+        android:src="@drawable/ic_edit_color_primary"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/et_email"
+        app:layout_constraintEnd_toEndOf="@+id/et_email"
+        app:layout_constraintTop_toTopOf="@+id/et_email" />
+
+    <TextView
+        android:id="@+id/tv_change_pass"
+        android:layout_width="0dp"
+        android:layout_height="44dp"
+        android:text="Change password"
+        android:textColor="@color/grey"
+        android:textSize="20sp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/profile_shape"
+        android:gravity="fill"
+        android:paddingStart="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_email" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnMyBooks"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/profile_shape"
+        android:text="My books"
+        android:textColor="@color/grey"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_change_pass" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_deleteAcc"
+        android:layout_width="0dp"
+        android:layout_height="44dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="26dp"
+        android:background="@drawable/profile_shape"
+        android:backgroundTint="#FF1D00"
+        android:text="Delete Account"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnMyBooks" />
+
+<!--    <EditText-->
+<!--        android:id="@+id/et_display_name"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="44dp"-->
+<!--        android:layout_marginTop="40dp"-->
+<!--        android:layout_marginStart="16dp"-->
+<!--        android:layout_marginEnd="16dp"-->
+<!--        android:inputType="textPersonName"-->
+<!--        android:background="@drawable/profile_shape"-->
+<!--        android:text="Hello "-->
+<!--        android:hint="Edit Name"-->
+<!--        android:visibility="gone"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/iv_profilePic" />-->
+
+<!--    <EditText-->
+<!--        android:id="@+id/et_email"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="44dp"-->
+<!--        android:layout_marginTop="40dp"-->
+<!--        android:layout_marginStart="16dp"-->
+<!--        android:layout_marginEnd="16dp"-->
+<!--        android:inputType="textEmailAddress"-->
+<!--        android:hint="Edit Email Id"-->
+<!--        android:visibility="gone"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/iv_profilePic" />-->
+
+    <Button
+        android:id="@+id/btn_save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Save"
+        android:visibility="gone"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
