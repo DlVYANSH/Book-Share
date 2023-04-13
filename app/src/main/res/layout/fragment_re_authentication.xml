@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".ReAuthenticationFragment">
 
-
     <TextView
         android:id="@+id/textView"
         android:layout_width="0dp"
@@ -22,7 +21,7 @@
         app:layout_constraintEnd_toEndOf="parent"/>
 
     <EditText
-        android:id="@+id/et_email"
+        android:id="@+id/et_email_RA"
         android:layout_width="0dp"
         android:layout_height="44dp"
         android:background="@drawable/profile_shape"
@@ -39,7 +38,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <EditText
-        android:id="@+id/editTextTextPassword2"
+        android:id="@+id/et_password_RA"
         android:layout_width="0dp"
         android:layout_height="44dp"
         android:background="@drawable/profile_shape"
@@ -50,13 +49,13 @@
         android:hint="Enter password"
         android:textSize="20sp"
         android:textColor="@color/grey"
-        android:inputType="textEmailAddress"
+        android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_email" />
+        app:layout_constraintTop_toBottomOf="@+id/et_email_RA" />
 
     <TextView
-        android:id="@+id/tv_forgotPass"
+        android:id="@+id/tv_forgotPass_RA"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -66,18 +65,84 @@
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPassword2" />
+        app:layout_constraintTop_toBottomOf="@+id/et_password_RA" />
+
+    <EditText
+        android:id="@+id/et_newEmail_RA"
+        android:layout_width="0dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/profile_shape"
+        android:hint="Enter new Email"
+        android:inputType="textEmailAddress"
+        android:paddingStart="16dp"
+        android:textColor="@color/grey"
+        android:textSize="20sp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_forgotPass_RA" />
+
+    <EditText
+        android:id="@+id/et_newPass_RA"
+        android:layout_width="0dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/profile_shape"
+        android:hint="Enter new password"
+        android:inputType="textPassword"
+        android:paddingStart="16dp"
+        android:textColor="@color/grey"
+        android:textSize="20sp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_forgotPass_RA" />
+
+    <EditText
+        android:id="@+id/et_re_new_pass_RA"
+        android:layout_width="0dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:paddingStart="16dp"
+        android:textColor="@color/grey"
+        android:textSize="20sp"
+        android:visibility="gone"
+        android:background="@drawable/profile_shape"
+        android:hint="Re enter new password"
+        android:inputType="textPassword"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_newPass_RA" />
 
     <Button
         android:id="@+id/btn_reAuthenticate"
         android:layout_width="0dp"
         android:layout_height="44dp"
-        android:text="Log In"
-        android:background="@drawable/profile_shape"
-        android:layout_marginTop="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
+        android:layout_marginBottom="32dp"
+        android:background="@drawable/profile_shape"
+        android:text="Log In"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/progressBarRA"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminateTint="@color/orange"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_forgotPass" />
+        app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -8,14 +8,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction.TRANSIT_FRAGMENT_FADE
 import com.bumptech.glide.Glide
-import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.android.synthetic.main.fragment_profile.*
-import kotlinx.android.synthetic.main.fragment_profile.view.*
 
 class ProfileFragment : Fragment() {
 
@@ -25,16 +25,15 @@ class ProfileFragment : Fragment() {
 
     private lateinit var ivProfilePic: ImageView
     private lateinit var ivEditPP: ImageView
-//    private lateinit var tvDisplayName: EditText
     private lateinit var ivEditName: ImageView
     private lateinit var etDisplayName: EditText
-//    private lateinit var tvEmail: TextView
+    private lateinit var tvEmail: TextView
     private lateinit var ivEditEmail: ImageView
-    private lateinit var etEmail: EditText
-    private lateinit var tvChangePass: TextView
+    private lateinit var btnChangePass: Button
     private lateinit var btnMyBooks: Button
     private lateinit var btnDelAccount: Button
     private lateinit var btnSave : Button
+    private lateinit var progressBar: ProgressBar
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,15 +45,14 @@ class ProfileFragment : Fragment() {
         btnMyBooks= view.findViewById(R.id.btnMyBooks)
         ivProfilePic = view.findViewById(R.id.iv_profilePic)
         ivEditPP = view.findViewById(R.id.iv_edit_pp)
-//        tvDisplayName = view.findViewById(R.id.tv_display_name)
         ivEditName = view.findViewById(R.id.iv_edit_name)
         etDisplayName = view.findViewById(R.id.et_display_name)
-//        tvEmail = view.findViewById(R.id.tv_email)
         ivEditEmail = view.findViewById(R.id.iv_edit_email)
-        etEmail = view.findViewById(R.id.et_email)
-        tvChangePass = view.findViewById(R.id.tv_change_pass)
+        tvEmail = view.findViewById(R.id.tv_email)
+        btnChangePass = view.findViewById(R.id.btn_change_pass)
         btnDelAccount = view.findViewById(R.id.btn_deleteAcc)
         btnSave = view.findViewById(R.id.btn_save)
+        progressBar = view.findViewById(R.id.progressBarProfile)
 
         currentUser = FirebaseAuth.getInstance().currentUser
         db = FirebaseFirestore.getInstance()
@@ -77,6 +75,10 @@ class ProfileFragment : Fragment() {
             updateEmail()
         }
 
+        btnChangePass.setOnClickListener {
+            changePassword()
+        }
+
         btnMyBooks.setOnClickListener {
             parentFragmentManager.beginTransaction().apply {
                 replace(R.id.fragmentContainerView, MyBooksFragment())
@@ -89,18 +91,24 @@ class ProfileFragment : Fragment() {
         return view
     }
 
-    private fun updateEmail() {
-        btnSave.visibility = View.VISIBLE
-        
-        btnSave.setOnClickListener {
-            currentUser!!.sendEmailVerification().addOnCompleteListener {
-                if(it.isSuccessful){
-                    Log.d(TAG, "updateEmail: verification successful!")
-                    Toast.makeText(context, "Verification mail sent to the registered mail id", Toast.LENGTH_SHORT).show()
-                    currentUser!!.updateEmail(etEmail.text.toString())
-                }
-            }
+    private fun changePassword() {
+        parentFragmentManager.beginTransaction().apply {
+            replace(R.id.fragmentContainerView, ReAuthenticationFragment("password"), ReAuthenticationFragment.REAUTHENTICATION_FRAGMENT_TAG)
+            addToBackStack(null)
+            setTransition(TRANSIT_FRAGMENT_FADE)
+            commit()
         }
+        HomeActivity.currentFragment = ReAuthenticationFragment("password")
+    }
+
+    private fun updateEmail() {
+        parentFragmentManager.beginTransaction().apply {
+            replace(R.id.fragmentContainerView, ReAuthenticationFragment("email"), ReAuthenticationFragment.REAUTHENTICATION_FRAGMENT_TAG)
+            addToBackStack(null)
+            setTransition(TRANSIT_FRAGMENT_FADE)
+            commit()
+        }
+        HomeActivity.currentFragment = ReAuthenticationFragment("email")
     }
 
     private fun updateName() {
@@ -108,27 +116,46 @@ class ProfileFragment : Fragment() {
 //        etDisplayName.isCursorVisible = true
 //        etDisplayName.requestFocus()
 
-        etDisplayName.isFocusable = true
-        etDisplayName.isCursorVisible = true
-        etDisplayName.requestFocus()
-
         btnSave.visibility = View.VISIBLE
 
         btnSave.setOnClickListener {
+            progressBar.visibility = View.VISIBLE
             val newName = etDisplayName.text.toString()
 
-            val profileUpdates = userProfileChangeRequest {
-                displayName = newName
-            }
+            if(newName.isEmpty()){
+                etDisplayName.error = "Empty fields!"
+                etDisplayName.requestFocus()
+                progressBar.visibility = View.GONE
+            } else {
 
-            currentUser!!.updateProfile(profileUpdates).addOnCompleteListener {
-                if (it.isSuccessful) {
-                    db.collection("users")
-                        .document(currentUser!!.email.toString())
-                        .set(User(profilePic.toString(), currentUser!!.uid, newName, currentUser!!.email))
-                    Toast.makeText(requireContext(), "Name changed to $newName", Toast.LENGTH_SHORT)
-                        .show()
-                    btnSave.visibility = View.GONE
+                val profileUpdates = userProfileChangeRequest {
+                    displayName = newName
+                }
+
+                currentUser!!.updateProfile(profileUpdates).addOnCompleteListener {
+                    if (it.isSuccessful) {
+                        db.collection("users")
+                            .document(currentUser!!.email.toString())
+                            .set(
+                                User(
+                                    profilePic.toString(),
+                                    currentUser!!.uid,
+                                    newName,
+                                    currentUser!!.email
+                                )
+                            )
+                        Toast.makeText(
+                            requireContext(),
+                            "Name changed to $newName",
+                            Toast.LENGTH_SHORT
+                        )
+                            .show()
+                        btnSave.visibility = View.GONE
+                        progressBar.visibility = View.GONE
+                    } else {
+                        Toast.makeText(requireContext(), it.exception?.message, Toast.LENGTH_SHORT).show()
+                        progressBar.visibility = View.GONE
+                    }
                 }
             }
         }
@@ -147,11 +174,14 @@ class ProfileFragment : Fragment() {
 
         Log.d(TAG, "updateUI: ${currentUser!!.displayName}")
         etDisplayName.setText(currentUser!!.displayName)
-        etEmail.setText(currentUser!!.email)
+        tvEmail.text = currentUser!!.email
     }
 
     private fun changeProfilePicture() {
         TODO("Not yet implemented")
     }
 
+    override fun onAttachFragment(childFragment: Fragment) {
+        parentFragmentManager.popBackStack(ReAuthenticationFragment.REAUTHENTICATION_FRAGMENT_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+    }
 }

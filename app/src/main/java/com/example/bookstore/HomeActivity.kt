@@ -5,11 +5,13 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
+import androidx.lifecycle.VIEW_MODEL_STORE_OWNER_KEY
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -50,10 +52,25 @@ class HomeActivity : AppCompatActivity() {
         supportFragmentManager.addOnBackStackChangedListener {
 
             when (supportFragmentManager.findFragmentById(R.id.fragmentContainerView)!!::class.simpleName) {
-                HomeFragment()::class.simpleName -> bottomNavigationView.menu.getItem(0).isChecked = true
-                ChatFragment()::class.simpleName -> bottomNavigationView.menu.getItem(2).isChecked = true
-                SellFragment()::class.simpleName -> bottomNavigationView.menu.getItem(1).isChecked = true
-                ProfileFragment()::class.simpleName -> bottomNavigationView.menu.getItem(3).isChecked = true
+                HomeFragment()::class.simpleName -> {
+                    bottomNavigationView.menu.getItem(0).isChecked = true
+                    bottomNavigationView.visibility = View.VISIBLE
+                }
+                ChatFragment()::class.simpleName -> {
+                    bottomNavigationView.menu.getItem(2).isChecked = true
+                    bottomNavigationView.visibility = View.VISIBLE
+                }
+                SellFragment()::class.simpleName -> {
+                    bottomNavigationView.menu.getItem(1).isChecked = true
+                    bottomNavigationView.visibility = View.VISIBLE
+                }
+                ProfileFragment()::class.simpleName -> {
+                    bottomNavigationView.menu.getItem(3).isChecked = true
+                    bottomNavigationView.visibility = View.VISIBLE
+                }
+                else -> {
+                    bottomNavigationView.visibility = View.GONE
+                }
             }
 
         }
@@ -72,7 +89,6 @@ class HomeActivity : AppCompatActivity() {
                 R.id.sell-> {
 
                     setCurrentFragment(SellFragment(), SELL_FRAGMENT_TAG)
-                    bottomNavigationView = findViewById(R.id.bottom_navigation)
                 }
 
                 R.id.chat -> {
