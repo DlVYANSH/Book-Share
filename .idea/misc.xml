@@ -14,7 +14,9 @@
         <entry key="..\:/Users/ds180/AndroidStudioProjects/Bookstore/app/src/main/res/drawable/ic_home_not_clicked.xml" value="0.1" />
         <entry key="..\:/Users/ds180/AndroidStudioProjects/Bookstore/app/src/main/res/drawable/ic_profile.xml" value="0.1" />
         <entry key="..\:/Users/ds180/AndroidStudioProjects/Bookstore/app/src/main/res/drawable/ic_sell.xml" value="0.1" />
+        <entry key="..\:/Users/ds180/AndroidStudioProjects/Bookstore/app/src/main/res/drawable/ic_send.xml" value="0.1" />
         <entry key="..\:/Users/ds180/AndroidStudioProjects/Bookstore/app/src/main/res/drawable/profile_shape.xml" value="0.1" />
+        <entry key="..\:/Users/ds180/AndroidStudioProjects/Bookstore/app/src/main/res/drawable/rounded_corner_white.xml" value="0.1" />
         <entry key="..\:/Users/ds180/AndroidStudioProjects/Bookstore/app/src/main/res/drawable/selector.xml" value="0.1" />
         <entry key="..\:/Users/ds180/AndroidStudioProjects/Bookstore/app/src/main/res/layout/activity_chat.xml" value="0.15217391304347827" />
         <entry key="..\:/Users/ds180/AndroidStudioProjects/Bookstore/app/src/main/res/layout/activity_home.xml" value="0.1" />
@@ -25,7 +27,11 @@
         <entry key="..\:/Users/ds180/AndroidStudioProjects/Bookstore/app/src/main/res/layout/activity_sell.xml" value="0.14666666666666667" />
         <entry key="..\:/Users/ds180/AndroidStudioProjects/Bookstore/app/src/main/res/layout/activity_sign_up.xml" value="0.20498783454987834" />
         <entry key="..\:/Users/ds180/AndroidStudioProjects/Bookstore/app/src/main/res/layout/book_list.xml" value="0.1503623188405797" />
+        <entry key="..\:/Users/ds180/AndroidStudioProjects/Bookstore/app/src/main/res/layout/chat_list_from.xml" value="0.22" />
+        <entry key="..\:/Users/ds180/AndroidStudioProjects/Bookstore/app/src/main/res/layout/chat_list_to.xml" value="0.144017094017094" />
+        <entry key="..\:/Users/ds180/AndroidStudioProjects/Bookstore/app/src/main/res/layout/fragment_book_detail.xml" value="0.22" />
         <entry key="..\:/Users/ds180/AndroidStudioProjects/Bookstore/app/src/main/res/layout/fragment_chat.xml" value="0.15217391304347827" />
+        <entry key="..\:/Users/ds180/AndroidStudioProjects/Bookstore/app/src/main/res/layout/fragment_chat_log.xml" value="0.17552083333333332" />
         <entry key="..\:/Users/ds180/AndroidStudioProjects/Bookstore/app/src/main/res/layout/fragment_home.xml" value="0.15217391304347827" />
         <entry key="..\:/Users/ds180/AndroidStudioProjects/Bookstore/app/src/main/res/layout/fragment_my_books.xml" value="0.16077898550724637" />
         <entry key="..\:/Users/ds180/AndroidStudioProjects/Bookstore/app/src/main/res/layout/fragment_profile.xml" value="0.22" />

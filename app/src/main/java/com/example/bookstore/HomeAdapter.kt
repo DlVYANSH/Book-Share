@@ -14,7 +14,8 @@ import com.firebase.ui.firestore.FirestoreRecyclerOptions
 
 class HomeAdapter(
     private val mContext: Fragment,
-    options: FirestoreRecyclerOptions<Book>
+    options: FirestoreRecyclerOptions<Book>,
+    private val clickListener: ItemClickListener
 ) : FirestoreRecyclerAdapter<Book, HomeAdapter.PostViewHolder>(
     options
 ) {
@@ -27,7 +28,6 @@ class HomeAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.book_list, parent, false)
-
         return PostViewHolder(view)
     }
 
@@ -38,5 +38,13 @@ class HomeAdapter(
             authorName.text = model.authorName
             price.text = model.price
         }
+
+        holder.itemView.setOnClickListener {
+            clickListener.onItemClicked(model)
+        }
+    }
+
+    interface ItemClickListener{
+        fun onItemClicked(book: Book)
     }
 }

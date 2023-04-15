@@ -1,6 +1,9 @@
 package com.example.bookstore
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 class Book(
     val userId: String? = null,
     val createdAt: String = "",
@@ -8,5 +11,5 @@ class Book(
     val bookName: String = "",
     val authorName: String = "",
     val price: String = ""
-) {
+) : Parcelable{
 }

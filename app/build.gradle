@@ -4,6 +4,10 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'kotlin-kapt'
 
+androidExtensions{
+    experimental = true
+}
+
 android {
     compileSdkVersion 32
     buildToolsVersion "30.0.3"
@@ -65,5 +69,7 @@ dependencies {
 
     //circular imageView
     implementation 'de.hdodenhof:circleimageview:3.1.0'
+
+    implementation 'com.google.code.gson:gson:2.10.1'
 
 }

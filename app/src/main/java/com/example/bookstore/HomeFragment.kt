@@ -6,16 +6,21 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.FragmentTransaction.TRANSIT_FRAGMENT_FADE
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.firestore.Query
 
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(), HomeAdapter.ItemClickListener {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var mAdapter: HomeAdapter
     private lateinit var mContext: Context
+
+    companion object{
+        const val TAG_BUNDLE = "TAG_BUNDLE"
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,11 +46,12 @@ class HomeFragment : Fragment() {
         val query = bookCollection.orderBy("createdAt", Query.Direction.DESCENDING)
         val recyclerViewOptions = FirestoreRecyclerOptions.Builder<Book>().setQuery(query, Book::class.java).build()
 
-        mAdapter = HomeAdapter(this, recyclerViewOptions)
+        mAdapter = HomeAdapter(this, recyclerViewOptions, this)
 
         recyclerView.apply {
             adapter = mAdapter
             layoutManager = LinearLayoutManager(context)
+            setHasFixedSize(true)
         }
 
     }
@@ -59,6 +65,20 @@ class HomeFragment : Fragment() {
         super.onStop()
 
         mAdapter.stopListening()
+    }
+
+    override fun onItemClicked(book: Book) {
+        val fragment = BookDetail()
+        val bundle = Bundle()
+        fragment.arguments = bundle
+        bundle.putParcelable(TAG_BUNDLE, book)
+        parentFragmentManager.beginTransaction().apply {
+            replace(R.id.fragmentContainerView, fragment)
+            setTransition(TRANSIT_FRAGMENT_FADE)
+            addToBackStack(null)
+            commit()
+        }
+        HomeActivity.currentFragment = fragment
     }
 
 }

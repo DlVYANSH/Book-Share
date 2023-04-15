@@ -12,7 +12,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 
-class MyBooksFragment : Fragment() {
+class MyBooksFragment : Fragment(), HomeAdapter.ItemClickListener {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var mAdapter: HomeAdapter
@@ -37,7 +37,7 @@ class MyBooksFragment : Fragment() {
         val query: Query = reference.orderBy("createdAt")
         val recyclerViewOptions = FirestoreRecyclerOptions.Builder<Book>().setQuery(query, Book::class.java).build()
 
-        mAdapter = HomeAdapter(this, recyclerViewOptions)
+        mAdapter = HomeAdapter(this, recyclerViewOptions, this)
 
         recyclerView.apply {
             adapter = mAdapter
@@ -55,5 +55,9 @@ class MyBooksFragment : Fragment() {
         super.onStop()
 
         mAdapter.stopListening()
+    }
+
+    override fun onItemClicked(book: Book) {
+        return
     }
 }

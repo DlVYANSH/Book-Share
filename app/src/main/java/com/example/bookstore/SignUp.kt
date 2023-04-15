@@ -17,6 +17,7 @@ import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import kotlinx.android.synthetic.main.activity_log_in.tv_logIn
 import kotlinx.android.synthetic.main.activity_sign_up.*
 import java.io.ByteArrayOutputStream
@@ -142,7 +143,8 @@ class SignUp : AppCompatActivity() {
                     matrix.postRotate(90F)
                     photo = Bitmap.createBitmap(photo, 0, 0, photo.width, photo.height, matrix, true)
 
-                    imageUri = convertBitmapToUri(photo)
+                    val util = Util()
+                    imageUri = util.convertBitmapToUri(photo)
                 }
             }
 
@@ -154,33 +156,19 @@ class SignUp : AppCompatActivity() {
         iv_profilePic.setImageURI(imageUri)
     }
 
-    private fun convertBitmapToUri(photo: Bitmap): Uri? {
-
-        val tempFile = File.createTempFile("temprentpk", ".png")
-        val bytes = ByteArrayOutputStream()
-        photo.compress(Bitmap.CompressFormat.PNG, 100, bytes)
-        val bitmapData = bytes.toByteArray()
-
-        val fileOutPut = FileOutputStream(tempFile)
-        fileOutPut.write(bitmapData)
-        fileOutPut.flush()
-        fileOutPut.close()
-        return Uri.fromFile(tempFile)
-    }
-
     private fun updateUI(firebaseUser: FirebaseUser, name: String) {
 
-        val imageRef = FirebaseStorage.getInstance().reference.child("profilePicture").child(imageUri!!.lastPathSegment!!)
-        val uploadTask = imageRef.putFile(imageUri!!)
+        val imageRef: StorageReference? = FirebaseStorage.getInstance().reference.child("profilePicture").child(imageUri!!.lastPathSegment!!)
+        val uploadTask = imageRef?.putFile(imageUri!!)
 
-        uploadTask.continueWithTask { task ->
+        uploadTask?.continueWithTask { task ->
             if (!task.isSuccessful) {
                 task.exception?.let {
                     throw it
                 }
             }
             imageRef.downloadUrl
-        }.addOnCompleteListener {
+        }?.addOnCompleteListener {
             if(it.isSuccessful){
                 val downloadUrl = it.result.toString()
                 val user = User(downloadUrl, firebaseUser.uid, name, firebaseUser.email.toString())
@@ -197,18 +185,9 @@ class SignUp : AppCompatActivity() {
                 val intent = Intent(this, HomeActivity::class.java)
                 startActivity(intent)
                 finish()
-            }
-            else {
+            } else {
                 Toast.makeText(this, it.exception?.message.toString(), Toast.LENGTH_SHORT).show()
             }
         }
-
-//        val user = User(firebaseUser.uid, name, firebaseUser.email.toString())
-//        val userDao = UserDao()
-//        userDao.addUser(user)
-//
-//        val intent = Intent(this, HomeActivity::class.java)
-//        startActivity(intent)
-//        finish()
     }
 }
