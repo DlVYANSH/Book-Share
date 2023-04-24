@@ -10,12 +10,13 @@ import androidx.fragment.app.FragmentTransaction.TRANSIT_FRAGMENT_FADE
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 
-class HomeFragment : Fragment(), HomeAdapter.ItemClickListener {
+class HomeFragment : Fragment(), BookAdapter.ItemClickListener, BookAdapter.LongPressListener {
 
     private lateinit var recyclerView: RecyclerView
-    private lateinit var mAdapter: HomeAdapter
+    private lateinit var mAdapter: BookAdapter
     private lateinit var mContext: Context
 
     companion object{
@@ -41,12 +42,11 @@ class HomeFragment : Fragment(), HomeAdapter.ItemClickListener {
     }
 
     private fun setUpRecyclerView() {
-        val bookDao = BookDao()
-        val bookCollection = bookDao.bookCollection
+        val bookCollection = FirebaseFirestore.getInstance().collection("books")
         val query = bookCollection.orderBy("createdAt", Query.Direction.DESCENDING)
         val recyclerViewOptions = FirestoreRecyclerOptions.Builder<Book>().setQuery(query, Book::class.java).build()
 
-        mAdapter = HomeAdapter(this, recyclerViewOptions, this)
+        mAdapter = BookAdapter(this, this,  this, recyclerViewOptions)
 
         recyclerView.apply {
             adapter = mAdapter
@@ -79,6 +79,10 @@ class HomeFragment : Fragment(), HomeAdapter.ItemClickListener {
             commit()
         }
         HomeActivity.currentFragment = fragment
+    }
+
+    override fun onLongPressed(book: Book) {
+        return
     }
 
 }

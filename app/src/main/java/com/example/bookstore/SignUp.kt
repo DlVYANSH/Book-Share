@@ -62,6 +62,12 @@ class SignUp : AppCompatActivity() {
         cv_profileImg_signUp.setOnClickListener {
             getImage()
         }
+
+        if(imageUri == null){
+            Toast.makeText(this, "Please select a profile picture", Toast.LENGTH_SHORT).show()
+            progressBar_SU.visibility = View.GONE
+            return
+        }
         val email = et_email.editText?.text.toString()
         val name = et_name.editText?.text.toString()
         val pass = et_password.editText?.text.toString()

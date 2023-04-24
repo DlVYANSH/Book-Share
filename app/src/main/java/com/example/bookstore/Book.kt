@@ -5,6 +5,7 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 class Book(
+    val id: String = "",
     val userId: String? = null,
     val createdAt: String = "",
     val bookImage: String = "",

@@ -175,4 +175,8 @@ class HomeActivity : AppCompatActivity() {
         val alertDialog = builder.create()
         alertDialog.show()
     }
+
+    fun setActionBarTitle(title: String){
+        supportActionBar?.title = title
+    }
 }

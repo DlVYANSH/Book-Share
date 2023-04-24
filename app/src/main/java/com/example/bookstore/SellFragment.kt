@@ -2,8 +2,6 @@ package com.example.bookstore
 
 import android.app.Activity
 import android.content.Context
-import android.content.ContextWrapper
-import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Matrix
@@ -15,27 +13,24 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
-import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
-import com.bumptech.glide.Glide
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.StorageReference
 import kotlinx.android.synthetic.main.fragment_sell.*
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
-import java.io.IOException
 
 
 class SellFragment : Fragment() {
 
-
     private lateinit var currentUser: FirebaseUser
+    private lateinit var db: FirebaseFirestore
     private var imageUri: Uri? = null
     private lateinit var mContext: Context
 
@@ -54,6 +49,7 @@ class SellFragment : Fragment() {
         val btnPublishBook: Button = view.findViewById(R.id.btn_publishBook)
 
         currentUser = FirebaseAuth.getInstance().currentUser!!
+        db = FirebaseFirestore.getInstance()
 
         ivBook.setOnClickListener {
             choosePhoto()
@@ -74,8 +70,8 @@ class SellFragment : Fragment() {
 
         pb_upload.visibility = View.VISIBLE
 
-        val bookName = et_bookName.text.toString()
-        val authorName = et_authorName.text.toString()
+        val bookName = et_book_name.text.toString()
+        val authorName = et_author_name.text.toString()
         val price = et_price.text.toString()
 
         if(imageUri != null) {
@@ -95,9 +91,14 @@ class SellFragment : Fragment() {
                 }.addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         val downloadUri = task.result.toString()
-                        val book = Book(currentUser.uid, System.currentTimeMillis().toString(), downloadUri, bookName, authorName, price)
-                        val bookDao = BookDao()
-                        bookDao.addBook(book)
+
+                        val collection = db.collection("books")
+                        val documentId = collection.document().id
+
+                        val book = Book(documentId, currentUser.uid, System.currentTimeMillis().toString(), downloadUri, bookName, authorName, price)
+
+                        collection.document(documentId).set(book)
+
                         Toast.makeText(mContext, "Published book successfully!", Toast.LENGTH_SHORT).show()
 
                         pb_upload.visibility = View.GONE
@@ -127,15 +128,15 @@ class SellFragment : Fragment() {
     private fun choosePhoto() {
         val builder = AlertDialog.Builder(mContext)
         builder.setMessage("Pick Photo from..")
-            .setPositiveButton("Camera",
-                DialogInterface.OnClickListener { _, _ ->
-                    choosePhotoFromCamera()
+            .setPositiveButton("Camera"
+            ) { _, _ ->
+                choosePhotoFromCamera()
 
-                })
-            .setNegativeButton("Gallery",
-                DialogInterface.OnClickListener { _, _ ->
-                    choosePhotoFromGallery()
-                })
+            }
+            .setNegativeButton("Gallery"
+            ) { _, _ ->
+                choosePhotoFromGallery()
+            }
 
         val alertDialog = builder.create()
         alertDialog.show()
@@ -184,29 +185,6 @@ class SellFragment : Fragment() {
     }
 
     private fun convertBitmapToUri(photo: Bitmap): Uri? {
-//        val cw = ContextWrapper(context);
-//        val directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
-//        val file = File(directory, "image" + System.currentTimeMillis().toString() + ".jpg");
-//
-//
-//        val bytes = ByteArrayOutputStream()
-//        photo.compress(Bitmap.CompressFormat.PNG, 100, bytes)
-//        val bitmapData = bytes.toByteArray()
-//
-//        if(!file.exists()) {
-//            try {
-//                val fileOutPut = FileOutputStream(file)
-//                fileOutPut.write(bitmapData)
-//                fileOutPut.flush()
-//                fileOutPut.close()
-//            } catch (e: IOException) {
-//                e.printStackTrace()
-//            }
-//        }
-//        val imgUri = Uri.fromFile(file)
-//        file.delete()
-//        return imgUri
-
         val tempFile = File.createTempFile("temprentpk", ".png")
         val bytes = ByteArrayOutputStream()
         photo.compress(Bitmap.CompressFormat.PNG, 100, bytes)

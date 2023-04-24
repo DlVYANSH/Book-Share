@@ -12,11 +12,12 @@ import com.bumptech.glide.Glide
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 
-class HomeAdapter(
+class BookAdapter(
     private val mContext: Fragment,
-    options: FirestoreRecyclerOptions<Book>,
-    private val clickListener: ItemClickListener
-) : FirestoreRecyclerAdapter<Book, HomeAdapter.PostViewHolder>(
+    private val clickListener: ItemClickListener,
+    private val longPressListener: LongPressListener,
+    options: FirestoreRecyclerOptions<Book>
+) : FirestoreRecyclerAdapter<Book, BookAdapter.PostViewHolder>(
     options
 ) {
     class PostViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -42,9 +43,18 @@ class HomeAdapter(
         holder.itemView.setOnClickListener {
             clickListener.onItemClicked(model)
         }
+
+        holder.itemView.setOnLongClickListener {
+            longPressListener.onLongPressed(model)
+            true
+        }
     }
 
     interface ItemClickListener{
         fun onItemClicked(book: Book)
+    }
+
+    interface LongPressListener{
+        fun onLongPressed(book: Book)
     }
 }

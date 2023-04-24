@@ -1,16 +1,10 @@
 package com.example.bookstore
 
-import android.content.ContentResolver
-import android.content.ContentValues.TAG
-import android.content.Context
-import android.database.Cursor
 import android.graphics.Bitmap
-import android.graphics.Matrix
 import android.net.Uri
-import android.provider.MediaStore
-import android.util.Log
-import androidx.exifinterface.media.ExifInterface
 import java.io.*
+import java.util.*
+import java.util.concurrent.TimeUnit
 
 
 class Util {
@@ -28,6 +22,17 @@ class Util {
         fileOutPut.close()
 
         return Uri.fromFile(tempFile)
+    }
+
+    //Not working properly
+    fun convertTimeToHourAndMinutes(timeInMilliSec: Long): String{
+        return java.lang.String.format(
+            Locale.ENGLISH,
+            "%02d:%02d:%02d",
+            TimeUnit.MILLISECONDS.toHours(timeInMilliSec) % 24,
+            TimeUnit.MILLISECONDS.toMinutes(timeInMilliSec) % 60,
+            TimeUnit.MILLISECONDS.toSeconds(timeInMilliSec) % 60
+        )
     }
 
 }

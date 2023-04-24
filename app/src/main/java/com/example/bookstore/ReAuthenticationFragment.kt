@@ -15,6 +15,7 @@ import androidx.core.view.marginTop
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction.TRANSIT_FRAGMENT_FADE
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -29,7 +30,9 @@ class ReAuthenticationFragment() : Fragment() {
     private lateinit var etPass: EditText
     private lateinit var tvForgotPass: TextView
     private lateinit var btnLogIn: Button
+    private lateinit var tlNewPass: TextInputLayout
     private lateinit var etNewPass: EditText
+    private lateinit var tlReNewPass: TextInputLayout
     private lateinit var etReNewPass: EditText
     private lateinit var etNewEmail: EditText
     private lateinit var progressBar: ProgressBar
@@ -53,7 +56,9 @@ class ReAuthenticationFragment() : Fragment() {
         btnLogIn = view.findViewById(R.id.btn_reAuthenticate)
         etNewEmail = view.findViewById(R.id.et_newEmail_RA)
         etNewPass = view.findViewById(R.id.et_newPass_RA)
+        tlNewPass = view.findViewById(R.id.tl_newPass_RA)
         etReNewPass = view.findViewById(R.id.et_re_new_pass_RA)
+        tlReNewPass = view.findViewById(R.id.tl_re_new_pass_RA)
         progressBar = view.findViewById(R.id.progressBarRA)
 
         tvMessage.text = arguments?.get(ProfileFragment.TAG_MESSAGE).toString()
@@ -101,7 +106,7 @@ class ReAuthenticationFragment() : Fragment() {
                     if (operation == "email") {
                         val params  = btnLogIn.layoutParams as ViewGroup.MarginLayoutParams
                         //converts dp to pixel as setMargin function take input in pixels
-                        val margin = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 76f, resources.displayMetrics)
+                        val margin = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 84f, resources.displayMetrics)
                         //setting margin dynamically after re-authenticating to show the edit text for new email
                         params.setMargins(16, margin.toInt(), 16, 16)
                         btnLogIn.layoutParams = params
@@ -115,12 +120,12 @@ class ReAuthenticationFragment() : Fragment() {
                     } else if (operation == "password") {
 
                         val params  = btnLogIn.layoutParams as ViewGroup.MarginLayoutParams
-                        val margin = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 136f, resources.displayMetrics).toInt()
+                        val margin = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 154f, resources.displayMetrics).toInt()
                         params.setMargins(16, margin, 16, 16)
                         btnLogIn.layoutParams = params
 
-                        etNewPass.visibility = View.VISIBLE
-                        etReNewPass.visibility = View.VISIBLE
+                        tlNewPass.visibility = View.VISIBLE
+                        tlReNewPass.visibility = View.VISIBLE
                         btnLogIn.text = "update Password"
                         btnLogIn.setOnClickListener {
                             updatePassword()
@@ -150,11 +155,11 @@ class ReAuthenticationFragment() : Fragment() {
             ) { _, _ ->
                 progressBar.visibility = View.VISIBLE
 
-                currentUser!!.delete().addOnCompleteListener {
+                currentUser.delete().addOnCompleteListener {
                     if(it.isSuccessful){
                         val db = FirebaseFirestore.getInstance()
-                        val queryBook = db.collection("books").whereEqualTo("userId", currentUser!!.uid)
-                        val queryUser = db.collection("users").document(currentUser!!.email.toString())
+                        val queryBook = db.collection("books").whereEqualTo("userId", currentUser.uid)
+                        val queryUser = db.collection("users").document(currentUser.email.toString())
 
                         queryUser.delete()
 

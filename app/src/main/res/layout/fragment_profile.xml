@@ -12,7 +12,7 @@
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:scaleType="centerCrop"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="50dp"
         app:civ_border_color="@color/colorPrimary"
         app:civ_border_width="4dp"
         android:elevation="4dp"
@@ -36,7 +36,7 @@
     <EditText
         android:id="@+id/et_display_name"
         android:layout_width="0dp"
-        android:layout_height="44dp"
+        android:layout_height="46dp"
         android:layout_marginTop="40dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
@@ -47,6 +47,7 @@
         android:focusableInTouchMode="false"
         android:cursorVisible="false"
         android:maxLines="1"
+        android:ellipsize="end"
         android:maxLength="30"
         android:textSize="20sp"
         android:gravity="fill"
@@ -68,13 +69,16 @@
     <TextView
         android:id="@+id/tv_email"
         android:layout_width="0dp"
-        android:layout_height="44dp"
+        android:layout_height="46dp"
         android:layout_marginTop="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:paddingStart="16dp"
+        android:paddingEnd="50dp"
         android:textSize="20sp"
         android:gravity="fill"
+        android:ellipsize="end"
+        android:maxLines="1"
         android:background="@drawable/profile_shape"
         android:text="abc@gmail.com"
         android:textColor="@color/grey"
@@ -95,7 +99,7 @@
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_change_pass"
         android:layout_width="0dp"
-        android:layout_height="44dp"
+        android:layout_height="46dp"
         android:text="Change password"
         android:textColor="@color/white"
         android:textSize="16sp"
@@ -111,7 +115,7 @@
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnMyBooks"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="46dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginTop="16dp"
@@ -127,10 +131,10 @@
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_deleteAcc"
         android:layout_width="0dp"
-        android:layout_height="44dp"
+        android:layout_height="46dp"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="28dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginTop="26dp"
         android:background="@drawable/profile_shape"
         android:backgroundTint="@color/orange"
         android:text="Delete Account"
@@ -140,46 +144,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnMyBooks" />
 
-<!--    <EditText-->
-<!--        android:id="@+id/et_display_name"-->
-<!--        android:layout_width="0dp"-->
-<!--        android:layout_height="44dp"-->
-<!--        android:layout_marginTop="40dp"-->
-<!--        android:layout_marginStart="16dp"-->
-<!--        android:layout_marginEnd="16dp"-->
-<!--        android:inputType="textPersonName"-->
-<!--        android:background="@drawable/profile_shape"-->
-<!--        android:text="Hello "-->
-<!--        android:hint="Edit Name"-->
-<!--        android:visibility="gone"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/iv_profilePic" />-->
-
-<!--    <EditText-->
-<!--        android:id="@+id/et_email"-->
-<!--        android:layout_width="0dp"-->
-<!--        android:layout_height="44dp"-->
-<!--        android:layout_marginTop="40dp"-->
-<!--        android:layout_marginStart="16dp"-->
-<!--        android:layout_marginEnd="16dp"-->
-<!--        android:inputType="textEmailAddress"-->
-<!--        android:hint="Edit Email Id"-->
-<!--        android:visibility="gone"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/iv_profilePic" />-->
-
     <Button
         android:id="@+id/btn_save"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
         android:text="Save"
         android:visibility="gone"
-        android:layout_marginEnd="24dp"
-        android:layout_marginBottom="24dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_deleteAcc" />
 
     <ProgressBar
         android:id="@+id/progressBarProfile"
